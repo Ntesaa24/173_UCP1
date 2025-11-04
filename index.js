@@ -54,3 +54,16 @@ app.put('/kandang/:id', async (req, res) => {
     }
 });
 
+app.delete('/kandang/:id', async (req, res) => {
+    const id = req.params.id;
+    try{
+        const kandang = await db.kandang.findByPk(id);
+        if(!kandang){
+            return res.status(404).send({message: 'kandang not found'});
+        }
+        await kandang.destroy();
+        res.send({message: "Kandang berhasil dihapus"});
+    } catch (error) {
+        res.status(500).send({message: error.message});
+    }
+});
